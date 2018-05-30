@@ -36,10 +36,15 @@ public class BallContoller : MonoBehaviour {
             }
         }
 
-        if(!Physics.Raycast(transform.position, Vector3.down, 1f)){
-            gameOver = true;
-        }
+        Debug.DrawRay(transform.position, Vector3.down, Color.red);
 
+        if (!Physics.Raycast(transform.position, Vector3.down, 1f))
+        {
+            gameOver = true;
+            rb.velocity = new Vector3(0, -25f, 0);
+
+            Camera.main.GetComponent<CameraFollow>().gameOver = true;
+        }
 
         //left click
         if(Input.GetMouseButtonDown(0) && !gameOver){
