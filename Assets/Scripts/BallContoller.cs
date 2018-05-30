@@ -60,4 +60,11 @@ public class BallContoller : MonoBehaviour {
             rb.velocity = new Vector3(0, 0, speed);
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Diamond"){
+            Destroy(other.gameObject);
+        }
+    }
 }
