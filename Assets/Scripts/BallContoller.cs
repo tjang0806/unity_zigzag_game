@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BallContoller : MonoBehaviour {
 
+    public GameObject particle;
+
     [SerializeField]
     private float speed;
     bool started;
@@ -33,20 +35,25 @@ public class BallContoller : MonoBehaviour {
 
                 //change boolean value so that if statement does not trigger
                 started = true;
+
+                GameManager.instance.StartGame();
             }
         }
 
-        Debug.DrawRay(transform.position, Vector3.down, Color.red);
+        //Debug.DrawRay(transform.position, Vector3.down, Color.red);
 
+        // gameover case
         if (!Physics.Raycast(transform.position, Vector3.down, 1f))
         {
             gameOver = true;
             rb.velocity = new Vector3(0, -25f, 0);
 
             Camera.main.GetComponent<CameraFollow>().gameOver = true;
+
+            GameManager.instance.GameOver();
         }
 
-        //left click
+        //left click and the ball change direction
         if(Input.GetMouseButtonDown(0) && !gameOver){
             SwitchDirection();
         }
@@ -64,7 +71,10 @@ public class BallContoller : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Diamond"){
+            GameObject part = Instantiate(particle, other.gameObject.transform.position, Quaternion.identity) as GameObject;
+
             Destroy(other.gameObject);
+            Destroy(part, 1f);
         }
     }
 }
