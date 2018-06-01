@@ -70,11 +70,13 @@ public class BallContoller : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        // other is diamond
+        // part is particle
         if(other.gameObject.tag == "Diamond"){
             GameObject part = Instantiate(particle, other.gameObject.transform.position, Quaternion.identity) as GameObject;
 
             Destroy(other.gameObject);
-            Destroy(part, 1f);
+            Destroy(part, 0.2f);
         }
     }
 }
